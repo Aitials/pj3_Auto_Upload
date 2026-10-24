@@ -1,0 +1,16 @@
+[project]
+name = "pj3-auto-upload"
+version = "0.1.0"
+description = "最小 LangChain Agent：用 ChatOpenAI 兼容写法接入 GLM-4.5-Air"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "langchain>=1.4.7",
+    "langchain-openai>=1.7.2",
+    "python-dotenv>=1.2.4",
+    "wecom-aibot-python-sdk>=1.0.2",
+]
+
+[tool.uv]
+# 优先使用本机已安装的 Python，减少无谓下载
+python-preference = "only-system"

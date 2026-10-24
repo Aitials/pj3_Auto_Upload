@@ -1,0 +1,12 @@
+.venv/
+.env
+__pycache__/
+*.py[cod]
+uv.lock.bak
+
+# IDE
+.idea/
+.vscode/
+
+# 运行日志
+*.log
