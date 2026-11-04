@@ -1,0 +1,20 @@
+[project]
+name = "pj3-auto-upload"
+version = "0.1.0"
+description = "最小 LangChain Agent：用 ChatOpenAI 兼容写法接入 GLM-4.5-Air"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "cryptography>=50.0.2",
+    "httpx>=0.28.1",
+    "langchain>=1.4.7",
+    "langchain-openai>=1.7.2",
+    "python-dotenv>=1.2.4",
+    "qrcode>=8.2",
+    "wecom-aibot-python-sdk>=1.0.2",
+]
+
+[tool.uv]
+# 使用 uv 受管的 Python 3.12：系统 Python 3.15 缺少 zstandard 预编译包，
+# 走源码编译会失败，故固定使用已安装好 wheel 的 3.12
+python-preference = "only-managed"

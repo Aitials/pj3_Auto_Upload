@@ -1,0 +1,21 @@
+.venv/
+.env
+__pycache__/
+*.py[cod]
+uv.lock.bak
+
+# IDE
+.idea/
+.vscode/
+
+# 运行日志
+*.log
+logs/
+state/
+.screenshots/
+
+# 微信通道本地凭证与媒体（兼容旧路径）
+.wechat_state.json
+.wechat_state.json.tmp
+.wechat_qr.*
+media/
