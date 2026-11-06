@@ -195,4 +195,4 @@ split_script_to_txt(
 1. 用正则完成切句、删除 `--`、标点后补四个空格；
 2. 写入 `state/output/script_split_YYYYMMDD_HHMMSS.txt`；
 3. 返回路径与句子数，由通道回传用户；
-4. 只依赖 `app/config` 的路径配置，不依赖具体通道。
+4. 只依赖 `../../config` 的路径配置，不依赖具体通道。

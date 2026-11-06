@@ -6,7 +6,6 @@ from pathlib import Path
 
 from langchain_core.tools import tool
 
-from app.channels.feishu import get_active_channel, get_current_message
 from app.config import STATE_DIR
 
 _IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp", ".tiff", ".heic"}
@@ -22,6 +21,8 @@ async def send_feishu_file(path: str, kind: str = "auto") -> str:
         path: 本地文件路径，必须位于项目的 state/ 目录下。
         kind: auto / file / image / video / voice，默认按后缀自动判断。
     """
+    from app.channels.feishu import get_active_channel, get_current_message
+
     channel = get_active_channel()
     message = get_current_message()
     if channel is None or message is None:

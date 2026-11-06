@@ -1,7 +1,7 @@
 """飞书企业自建应用机器人通道（长连接 WebSocket）。
 
-行为对齐现有 Channel 契约：长连接收消息、去重、媒体落盘。
-当前先使用纯文本回复，流式卡片代码保留，暂不调用。
+行为对齐现有 Channel 契约：长连接收消息、去重、媒体落盘，
+优先用流式卡片回复文本，失败时降级为普通文本消息。
 """
 
 from __future__ import annotations
@@ -430,14 +430,33 @@ class FeishuChannel(Channel):
         await self._send_content(message, "text", content)
 
     async def reply_stream(self, message: IncomingMessage, chunks) -> str:
-        """当前先走纯文本回复，不调用流式卡片。"""
         answer = ""
+        card_id = await self._create_and_send_card(message)
+        sequence = 1
+        last_push = 0.0
         try:
             async for delta in chunks:
                 answer += delta
+                now = time.monotonic()
+                if card_id and now - last_push >= STREAM_INTERVAL_SECONDS:
+                    sequence += 1
+                    if not await self._update_card(card_id, answer, sequence):
+                        card_id = None
+                    last_push = now
         except Exception as exc:
-            log.exception("飞书回复失败")
+            log.exception("飞书流式回复失败")
             answer = answer or f"抱歉，处理失败了：{exc}"
+
+        if card_id:
+            sequence += 1
+            updated = await self._update_card(
+                card_id, answer or "（没有生成内容）", sequence
+            )
+            sequence += 1
+            await self._close_card(card_id, sequence)
+            if not updated:
+                await self.reply_text(message, answer or "（没有生成内容）")
+            return answer
 
         await self.reply_text(message, answer or "（没有生成内容）")
         return answer

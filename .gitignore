@@ -14,6 +14,9 @@ logs/
 state/
 .screenshots/
 
+# 生成产物（TTS 音频、终端保存的回答等）
+output/
+
 # 微信通道本地凭证与媒体（兼容旧路径）
 .wechat_state.json
 .wechat_state.json.tmp
