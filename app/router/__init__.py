@@ -39,6 +39,10 @@ async def handle_message(channel: Channel, message: IncomingMessage) -> None:
 
 
 def create_channel(name: str) -> Channel:
+    if name == "feishu":
+        from app.channels.feishu import FeishuChannel
+
+        return FeishuChannel()
     if name == "wecom":
         from app.channels.wecom import WeComChannel
 
@@ -47,7 +51,7 @@ def create_channel(name: str) -> Channel:
         from app.channels.wechat_ilink import WeChatILinkChannel
 
         return WeChatILinkChannel()
-    raise SystemExit(f"未知通道：{name}（可选：wecom / wechat）")
+    raise SystemExit(f"未知通道：{name}（可选：feishu / wecom / wechat）")
 
 
 async def run_channel(name: str) -> None:

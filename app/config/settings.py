@@ -36,7 +36,13 @@ def _float_from_env(name: str, default: float) -> float:
 
 
 STATE_DIR = _path_from_env("STATE_DIR", PROJECT_ROOT / "state")
-CHANNEL = get_env("CHANNEL", "wechat").strip().lower()
+CHANNEL = get_env("CHANNEL", "feishu").strip().lower()
+
+FEISHU_APP_ID = get_env("FEISHU_APP_ID").strip()
+FEISHU_APP_SECRET = get_env("FEISHU_APP_SECRET").strip()
+FEISHU_MEDIA_DIR = _path_from_env(
+    "FEISHU_MEDIA_DIR", STATE_DIR / "feishu_media"
+)
 
 WECHAT_BASE_URL = get_env(
     "WECHAT_BASE_URL", "https://ilinkai.weixin.qq.com"

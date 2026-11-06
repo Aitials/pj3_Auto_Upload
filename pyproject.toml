@@ -9,6 +9,7 @@ dependencies = [
     "httpx>=0.28.1",
     "langchain>=1.4.7",
     "langchain-openai>=1.7.2",
+    "lark-oapi>=1.4.0",
     "python-dotenv>=1.2.4",
     "qrcode>=8.2",
     "wecom-aibot-python-sdk>=1.0.2",

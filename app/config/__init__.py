@@ -4,6 +4,9 @@ from __future__ import annotations
 
 from .settings import (
     CHANNEL,
+    FEISHU_APP_ID,
+    FEISHU_APP_SECRET,
+    FEISHU_MEDIA_DIR,
     PROJECT_ROOT,
     STATE_DIR,
     WECHAT_BASE_URL,
@@ -19,6 +22,9 @@ from .settings import (
 
 __all__ = [
     "CHANNEL",
+    "FEISHU_APP_ID",
+    "FEISHU_APP_SECRET",
+    "FEISHU_MEDIA_DIR",
     "PROJECT_ROOT",
     "STATE_DIR",
     "WECHAT_BASE_URL",

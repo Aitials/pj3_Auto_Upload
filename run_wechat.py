@@ -1,8 +1,9 @@
-"""统一聊天通道启动入口（根目录薄入口）。
+"""微信 / 企业微信通道启动入口（根目录薄入口）。
 
-默认启动微信（ClawBot / iLink）：首次运行会自动用 Chrome 打开二维码页，
-手机微信扫码确认后即可对话。也可以用 `--channel wecom` 或 .env 的
-`CHANNEL=wecom` 启动原企业微信通道。
+飞书通道请使用独立的 run_feishu.py。
+
+默认读 .env 的 CHANNEL（仅接受 wechat / wecom）；若 CHANNEL 不是这两个值，
+则默认启动微信。也可以用 --channel 覆盖。
 
 运行：
     uv run python run_wechat.py
@@ -24,9 +25,9 @@ log = logging.getLogger("run")
 def main() -> None:
     default_channel = CHANNEL
     if default_channel not in ("wechat", "wecom"):
-        raise SystemExit(f"CHANNEL 取值无效：{default_channel}（可选：wechat / wecom）")
+        default_channel = "wechat"
 
-    parser = argparse.ArgumentParser(description="启动聊天通道")
+    parser = argparse.ArgumentParser(description="启动微信 / 企业微信通道")
     parser.add_argument(
         "--channel",
         choices=("wechat", "wecom"),
