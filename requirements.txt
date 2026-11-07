@@ -1,0 +1,21 @@
+# 运行环境：Python >= 3.11（项目实际使用 3.12，见 .python-version）
+# 版本与 uv.lock 保持一致，可直接用 pip 安装：
+#   pip install -r requirements.txt
+# 使用 uv 时仍以 pyproject.toml / uv.lock 为准：
+#   uv sync
+
+# Agent 与模型调用
+langchain==1.4.7
+langchain-core==1.7.0
+langchain-openai==1.7.2
+
+# 企业微信通道
+wecom-aibot-python-sdk==1.0.2
+
+# 微信 iLink 通道：HTTP 请求、媒体解密、二维码生成
+httpx==0.28.1
+cryptography==50.0.2
+qrcode==8.2
+
+# 配置加载（.env）
+python-dotenv==1.2.4

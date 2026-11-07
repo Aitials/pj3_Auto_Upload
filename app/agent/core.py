@@ -1,21 +1,20 @@
-"""GLM-4.5-Air Agent 核心，供命令行与企业微信机器人共用。"""
+"""GLM-4.5-Air Agent 核心，供命令行与各聊天通道共用。"""
 
 from __future__ import annotations
 
-import os
 from datetime import datetime
 from functools import lru_cache
 
-from dotenv import load_dotenv
 from langchain.agents import create_agent
 from langchain_core.tools import tool
 from langchain_openai import ChatOpenAI
 
-load_dotenv()
+from app.config import get_env
+from app.tools import read_skill, send_feishu_file
 
 # 智谱 BigModel 提供 OpenAI 兼容接口，因此可直接复用 ChatOpenAI
-BASE_URL = os.getenv("GLM_BASE_URL", "https://open.bigmodel.cn/api/paas/v4")
-MODEL = os.getenv("GLM_MODEL", "glm-4.5-air")
+BASE_URL = get_env("GLM_BASE_URL", "https://open.bigmodel.cn/api/paas/v4")
+MODEL = get_env("GLM_MODEL", "glm-4.5-air")
 
 _ALLOWED_CHARS = "0123456789+-*/().e "
 
@@ -41,7 +40,7 @@ def calculator(expression: str) -> str:
 
 
 def build_llm() -> ChatOpenAI:
-    api_key = os.getenv("ZHIPU_API_KEY")
+    api_key = get_env("ZHIPU_API_KEY")
     if not api_key:
         raise RuntimeError("缺少 ZHIPU_API_KEY，请在 .env 中配置后重试")
 
@@ -59,8 +58,16 @@ def build_llm() -> ChatOpenAI:
 def get_agent():
     return create_agent(
         build_llm(),
-        tools=[calculator, get_current_time],
-        system_prompt="你是一个简洁高效的助手。能直接回答的就直答，需要实时数据或计算时才调用工具。",
+        tools=[calculator, get_current_time, read_skill, send_feishu_file],
+        system_prompt=(
+            "你是一个简洁高效的助手。能直接回答的就直答，需要实时数据或计算时才调用工具。"
+            "需要按特定技能处理任务时，先调用 read_skill 读取技能规范，再严格按规范执行。"
+            "当用户提供整段口播稿或视频文案，并要求拆句、分段、排版或导出 txt 时，"
+            "必须先调用 read_skill(\"video-script-splitter\") 加载规范，再按规范处理；"
+            "不要凭记忆自行编造格式。需要向飞书发送本地文件、图片、视频或语音时，"
+            "调用 send_feishu_file，且只能发送 state/ 目录下真实存在的文件。"
+            "默认用中文进行回答"
+        ),
     )
 
 

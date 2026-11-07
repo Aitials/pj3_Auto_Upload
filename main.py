@@ -8,7 +8,7 @@
 
 from __future__ import annotations
 
-from agent import ask
+from app.agent import ask
 
 QUESTION = "现在几点了？顺便算一下 365 * 24 * 60 等于多少"
 
